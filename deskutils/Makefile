@@ -254,6 +254,7 @@
     SUBDIR += rednotebook
     SUBDIR += remind
     SUBDIR += rolo
+    SUBDIR += rpi-imager
     SUBDIR += rubygem-shellplay
     SUBDIR += rubygem-taskjuggler
     SUBDIR += rwpspread
