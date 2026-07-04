@@ -16,27 +16,21 @@ LIB_DEPENDS=	libcurl.so:ftp/curl \
 		libnettle.so:security/nettle \
 		libzstd.so:archivers/zstd
 
-FLAVORS=	default cli
-FLAVOR?=	${FLAVORS:[1]}
-cli_PKGNAMESUFFIX=-cli
-
-USES=	qt:6 cmake pkgconfig libarchive:run
-USE_QT=	base tools:build
+USES=		compiler:c++20-lang qt:6 cmake pkgconfig libarchive:run \
+		desktop-file-utils gl shared-mime-info
+USE_QT=		base tools:build svg declarative imageformats:run
+USE_GL=		opengl
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	jainnimish
 
 WRKSRC_SUBDIR=	src
-CMAKE_ON=	USE_LOCAL_ONLY
 
-.if ${FLAVOR} == cli
-CMAKE_ON+=	BUILD_CLI_ONLY
-PLIST_SUB=	GUI="@comment " CLI=""
-.else
-USES+=		desktop-file-utils gl shared-mime-info
-USE_QT+=	svg declarative imageformats:run
-USE_GL=		opengl
+CMAKE_ARGS=	-DDEFAULT_VERSION_STRING="v2.0.10"
+CMAKE_ON=	BUILD_REPO_PACKAGE
+CMAKE_OFF=	ENABLE_CHECK_VERSION
+CMAKE_OFF=	ENABLE_TELEMETRY
+
 PLIST_SUB=	CLI="@comment " GUI=""
-.endif
 
 .include <bsd.port.mk>
